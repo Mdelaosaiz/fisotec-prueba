@@ -22,7 +22,15 @@
 </head>
 
 <body>
-  <div id="mapa"></div>
+  <div id="mapa">
+    <div class="pop">
+      <h1 class="type"></h1>
+      <h2 class="place"></h2>
+      <small class="coordinates"></small>
+      <h3 class="magnitud"></h3>
+      <h3 class="tsunami"></h3>
+    </div>
+  </div>
 
   <script type="text/javascript">
     var mapa = L.map("mapa", {
@@ -69,6 +77,18 @@
         capaTerremotos.bindPopup(function (entidad) {
             return 'Magnitud: ' + entidad.feature.properties.mag
         });
+
+        function popUpOpen (e){
+          console.log("entro");
+        }
+        function popUpClose (e){
+          console.log("salgo");
+        }
+        
+        capaTerremotos.addEventListener("popupopen", popUpOpen);
+
+        capaTerremotos.addEventListener("popupclose", popUpClose);
+
 
         capaTerremotos.addTo(mapa);
       });

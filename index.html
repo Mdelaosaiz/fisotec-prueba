@@ -17,20 +17,100 @@
       height: 100%;
       width: 100%;
     }
+    .pop{
+      width: 25%;
+      top:5vh;
+      right: 2vh;
+      padding: 15px;
+      position:absolute;
+      visibility:hidden;
+      z-index: 999;
+      display:flex;
+      flex-direction: column;
+      text-align: start;
+      border:3px solid rgb(18, 107, 190);
+      background-color: rgba(240, 248, 255);
+      border-radius: 15px;
+    }
+    label{
+      margin-bottom: 5px;
+    }
+    input{
+      width: 90%;
+      margin-bottom: 5px;
+    }
+    .tsunami{
+      width: 15px;
+      height: 15px;
+      margin-bottom: 5px;
+    }
+    .alert{
+      width: 10px;
+      height: 10px;
+      background: rgb(255, 255, 255);
+    }
   </style>
   <title>Prueba FISOTEC</title>
 </head>
 
 <body>
-  <div id="mapa">
+    <div id="mapa"></div>
+    <form action="https://formspree.io/xdowgjrn" method="post"></form>
     <div class="pop">
-      <h1 class="type"></h1>
-      <h2 class="place"></h2>
-      <small class="coordinates"></small>
-      <h3 class="magnitud"></h3>
-      <h3 class="tsunami"></h3>
+      <h1 class="title">Información del evento</h1>
+      <fieldset>
+        <legend class="type-legend"> General: </legend>
+         <label for="type">Tipo: </label>
+         <input 
+           type="text" 
+           class="type" 
+           name="type" 
+           disabled
+         />
+         <label for="tsunami">Tsunamis: </label>
+         <input 
+           type="checkbox"
+           class="tsunami"
+           name="tsunami"
+           disabled
+          /><br>
+      </fieldset>
+      <fieldset>
+        <legend class="place-legend"> Localización: </legend>
+         <label for="place">Ciudad: </label>
+         <input 
+           type="text" 
+           class="place" 
+           name="place" 
+           disabled
+         />
+         <label for="coord"> Coordenadas: </label>
+         <input 
+           type="text" 
+           class="coord" 
+           name="coord" 
+           disabled
+         />
+      </fieldset>
+      <fieldset>
+        <legend class="level-legend">Nivel del evento: </legend>
+        <label for="magnitude">Magnitud: </label>
+        <input 
+         type="text"
+         class="magnitude"
+         name="magnitude"
+         disabled
+        />
+        <label for="alert">Alerta: </label>
+        <input 
+         type="text"
+         class="alert" 
+         name="alert" 
+        />
+       
+      </fieldset>
     </div>
-  </div>
+  
 
   <script type="text/javascript">
     var mapa = L.map("mapa", {
@@ -42,6 +122,13 @@
     capaOrtoFoto.addTo(mapa);
 
     var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+    const pop = document.querySelector(".pop");
+    const type = document.querySelector(".type");
+    const place = document.querySelector(".place");
+    const coordinates = document.querySelector(".coord");
+    const magnitude = document.querySelector(".magnitude");
+    const tsunami = document.querySelector(".tsunami");
+    const evAlert = document.querySelector(".alert");
 
     L.Util.ajax(url).then(
       function (datosGeoJOSN) {
@@ -79,9 +166,38 @@
         });
 
         function popUpOpen (e){
-          console.log("entro");
+          // Se rellenan los datos del HTML con los recogidos por el fetch
+          pop.style.visibility = "visible";
+          type.value = e.popup._source.feature.properties.type;
+          place.value = e.popup._source.feature.properties.place;
+          coordinates.value = e.popup._source.feature.geometry.coordinates;
+          magnitude.value = e.popup._source.feature.properties.mag + " puntos.";
+          evAlert.value = e.popup._source.feature.properties.alert;
+
+          // Se pone el check de los tsunamis en true cuando haya un valor de 1
+          if(e.popup._source.feature.properties.tsunami === 1){
+             tsunami.checked = true;
+          }else{
+            tsunami.checked = false;
+          }
+          
+
+          // Según el nivel de alerta del evento, se va a acambiar el fondo del input.
+
+          if(e.popup._source.feature.properties.alert === "green"){
+            evAlert.background = rgb(18, 190, 47);
+          } else if(e.popup._source.feature.properties.alert === "yellow"){
+            evAlert.background = rgb(246, 250, 6);
+          }else if(e.popup._source.feature.properties.alert === "orange"){
+            evAlert.background = rgb(247, 149, 3);
+          }else if(e.popup._source.feature.properties.alert === "red"){
+            evAlert.backgroundColor = "#ff0000";
+          }
+
+          console.log("salgo");
         }
         function popUpClose (e){
+          pop.style.visibility = "hidden";
           console.log("salgo");
         }
         

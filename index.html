@@ -28,9 +28,10 @@
       display:flex;
       flex-direction: column;
       text-align: start;
-      border:3px solid rgb(18, 107, 190);
-      background-color: rgba(240, 248, 255);
+      border:3px solid rgb(18, 105, 187);
+      background: linear-gradient(to bottom, rgb(169, 209, 236), white);;
       border-radius: 15px;
+      
     }
     label{
       margin-bottom: 5px;
@@ -184,7 +185,6 @@
             tsunami.checked = false;
           }
           
-
           // Según el nivel de alerta del evento, se va a acambiar el fondo del input.
 
           if(e.popup._source.feature.properties.alert === "green"){
@@ -198,11 +198,11 @@
           } else if(e.popup._source.feature.properties.alert === null){
             evAlert.style.backgroundColor = 'rgb(255, 255, 255)'
           } 
-          console.log("salgo");
+          
         }
         function popUpClose (e){
           pop.style.visibility = "hidden";
-          console.log("salgo");
+          
         }
         
         capaTerremotos.addEventListener("popupopen", popUpOpen);

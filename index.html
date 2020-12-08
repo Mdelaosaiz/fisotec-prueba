@@ -21,11 +21,7 @@
       height: 100%;
       width: 100%;
     }
-    .moiIcon{
-      width: 80px;
-      height: 70px;
-      margin-right: 10px;
-    }
+    
     .pop{
       width: 25%;
       top:15vh;
@@ -286,11 +282,11 @@
       L.Control.Button = L.Control.extend({
           onAdd: function(map) {
            const button = L.DomUtil.create('button');
-           button.style.width = '60px';
-           button.style.height = '30px';
+           button.style.width = '33px';
+           button.style.height = '33px';
            button.style.cursor = 'pointer';
-           button.style.borderRadius = '15px';
-           button.innerHTML = '<img src="images/lupa.png" style="width:25px"/>';
+           
+           button.innerHTML = '<img src="images/lupa.png" style="width:20px; padding-top:4px"/>';
            
            L.DomEvent
            .addListener(button, 'click', L.DomEvent.stopPropagation)
@@ -319,7 +315,7 @@
           onAdd: function(map) {
            var img = L.DomUtil.create('a');           
            img.href = 'https://github.com/Mdelaosaiz';
-           img.innerHTML = "<img src=\"images/moi-github.png\" alt=\"Github Marián de la Osa\"  class=\"moiIcon\"/>";          
+           img.innerHTML = '<img src="images/moi-github.png" target="_blank" title="Github Marián de la Osa" style="width: 80px;height: 70px; margin-right:10px;" />';          
            img.style.width = '70px';
            img.style.height = '70px';
            img.style.cursor = 'pointer';

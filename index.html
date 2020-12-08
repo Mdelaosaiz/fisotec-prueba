@@ -24,7 +24,7 @@
       padding: 15px;
       position:absolute;
       visibility:hidden;
-      z-index: 999;
+      z-index: 500;
       display:flex;
       flex-direction: column;
       text-align: start;
@@ -168,9 +168,9 @@
         capaTerremotos.bindPopup(function (entidad) {
             return 'Magnitud: ' + entidad.feature.properties.mag
         });
-
+        
         function popUpOpen (e){
-          // Se rellenan los datos del HTML con los recogidos por el fetch
+          // Rellena los datos del HTML con los recogidos por el fetch
           pop.style.visibility = "visible";
           type.value = e.popup._source.feature.properties.type;
           place.value = e.popup._source.feature.properties.place;
@@ -185,7 +185,7 @@
             tsunami.checked = false;
           }
           
-          // Según el nivel de alerta del evento, se va a acambiar el fondo del input.
+          // Según el nivel de alerta del evento, se acambia el fondo del input.
 
           if(e.popup._source.feature.properties.alert === "green"){
             evAlert.style.backgroundColor = 'rgb(18, 190, 47)';
@@ -212,6 +212,46 @@
 
         capaTerremotos.addTo(mapa);
       });
+      
+      //Crea el botón de información
+      L.Control.Button = L.Control.extend({
+          onAdd: function(map) {
+           const button = L.DomUtil.create('button');
+           button.style.width = '60px';
+           button.style.height = '30px';
+           button.style.cursor = 'pointer';
+           button.style.borderRadius = '15px';
+           button.innerHTML = 'Todo';
+           return button;
+          },
+          onRemove: function(map) {
+           // No hay nada porque no queremos que desaparezca.
+          }
+        });
+
+        L.control.button = function(opts) {
+         return new L.Control.Button(opts);
+        }
+
+        L.control.button({ position: 'topleft' }).addTo(mapa);
+      
+      //Añade un pequeño detalle de la librería.
+      L.Control.Watermark = L.Control.extend({
+          onAdd: function(map) {
+           var img = L.DomUtil.create('img');
+           img.src = 'js/images/leaflet.png';
+           img.style.width = '50px';
+           return img;
+          },
+          onRemove: function(map) {
+          }
+        });
+
+        L.control.watermark = function(opts) {
+         return new L.Control.Watermark(opts);
+        }
+
+        L.control.watermark({ position: 'bottomleft' }).addTo(mapa);
   </script>
 </body>
 

@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="dataTable/datatables.css">
+  <script type="text/javascript" charset="utf8" src="dataTable/datatables.js"></script>
   <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" type="text/javascript"></script>
   <script src="https://unpkg.com/esri-leaflet@2.1.4/dist/esri-leaflet.js"></script>
   <script src="./js/leaflet.ajax.min.js" type="text/javascript"></script>
@@ -29,32 +31,47 @@
       flex-direction: column;
       text-align: start;
       border:3px solid rgb(18, 105, 187);
-      background: linear-gradient(to bottom, rgb(169, 209, 236), white);;
+      background: linear-gradient(to bottom, rgb(169, 209, 236), white);
       border-radius: 15px;
       
     }
+
     label{
       margin-bottom: 5px;
     }
+
     input{
       width: 90%;
       margin-bottom: 5px;
     }
+
     .tsunami{
       width: 15px;
       height: 15px;
       margin-bottom: 5px;
     }
+
     .alert{
       display: flex;
       flex-direction:row;
     }
+
     .color{
       width: 15px;
       height: 15px;
       margin-left: 5px;
       border: 1px solid black;
       background: rgb(250, 250, 250);
+    }
+
+    .table{
+      width:100%;
+      bottom:25px;
+      margin: 5px;
+      /* visibility:hidden; */
+      position: absolute;
+      z-index: 500;
+      background: linear-gradient(to bottom, rgb(169, 209, 236), white);;
     }
   </style>
   <title>Prueba FISOTEC</title>
@@ -114,7 +131,23 @@
         </div>   
       </fieldset>
     </div>
-  
+    <div class="table">
+      <table id="table_id" class="table">
+        <caption> Tabla de todos los eventos encontrados en el mapa </caption>
+        <thead>
+          <tr>
+              <th>Column 1</th>
+              <th>Column 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td>Row 1 Data 1</td>
+              <td>Row 1 Data 2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   <script type="text/javascript">
     var mapa = L.map("mapa", {
@@ -252,6 +285,11 @@
         }
 
         L.control.watermark({ position: 'bottomleft' }).addTo(mapa);
+
+      // Crea una tabla con la información de todos los eventos.
+      $(document).ready( function () {
+       $('#table_id').DataTable();
+      } );
   </script>
 </body>
 

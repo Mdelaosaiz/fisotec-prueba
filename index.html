@@ -182,9 +182,9 @@
 
     L.Util.ajax(url).then(
       function (datosGeoJOSN) {
-        //Call funcion crea tabla
+        //Se crea el HTML de la tabla y rellena con la información.
         let tableBody = '';
-        // tableBody.style.paddingLeft = '10px';
+        
         for(let info of datosGeoJOSN.features){
           tableBody += `<tr>`;
           tableBody += `<td>` + info.properties.type + `</td>`;
